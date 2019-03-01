@@ -5,6 +5,8 @@ Here's where I got the initial idea from, the /u/NHL_Stats bot
 https://www.reddit.com/r/NHL_Stats/comments/74skjv/bot_details/
 
 ## Links
+https://github.com/andrewlively/nhlapi
+https://gitlab.com/dword4/nhlapi
 
 ### NHL Specific Links
 http://www.nhl.com/stats/
