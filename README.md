@@ -7,6 +7,7 @@ https://www.reddit.com/r/NHL_Stats/comments/74skjv/bot_details/
 ## Links
 * https://github.com/andrewlively/nhlapi
 * https://gitlab.com/dword4/nhlapi
+* https://pythonhosted.org/nhlscrapi/
 
 ### NHL Specific Links
 http://www.nhl.com/stats/
