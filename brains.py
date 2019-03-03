@@ -33,7 +33,11 @@ class Brains():
             $games - lists today\'s games
             $scores - lists today\'s scores
             $standings - lists current standings
-            $top scorers - lists top 10 scoring leaders
+            $scoring.top - lists top 10 scoring leaders
+            $scores - lists the scores of today\'s games
+            $team.stats [3 digit team name]= Team stats
+            $team.prev [3 digit team name] - Previous teams score
+            $team.next [3 digit team name] - Previous teams score
         """
 
     def getStatus(self):
