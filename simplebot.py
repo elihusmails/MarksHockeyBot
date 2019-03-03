@@ -1,6 +1,5 @@
 import discord
 import config
-
 from brains import Brains
 import hockeystats
 
@@ -16,10 +15,6 @@ async def on_message(message):
     if message.author == client.user:
         return
 
-    # if message.content.startswith('$hello'):
-    #     #await message.channel.send_message('Hello!')
-    #     await client.send_message(message. channel, 'Hello!')
-    type(message.content)
     if message.content =='$hello':
         await client.send_message(message.channel, 'Hello')
     elif message.content == '$help':
@@ -40,6 +35,12 @@ async def on_message(message):
         await client.send_message(message.channel, hockeystats.pGame(message.content))
     elif message.content.startswith('$team.next'):
         await client.send_message(message.channel, hockeystats.nGame(message.content))
+    elif message.content.startswith('$team.stats'):
+        await client.send_message(message.channel, brains.getTeamStats(message.content))
+    elif message.content.startswith('$team.stats.print'):
+        await client.send_message(message.channel, brains.getSupportedTeamStats())        
+    elif message.content.startswith('$team.stats.ranking'):
+        await client.send_message(message.channel, brains.getTeamStatRanking(message.content))   
     else:
         await client.send_message(message.channel, 'Unknown command\n' + brains.processHelp())
 

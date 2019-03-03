@@ -1,6 +1,8 @@
 import json
 import urllib.request
 import datetime
+from collections import OrderedDict
+from operator import itemgetter
 
 class Brains():
 
@@ -111,3 +113,53 @@ class Brains():
             response = response + "{} {}\t{} {}\n".format(homeTeam, homeTeamScore, awayTeam, awayTeamScore)
 
         return response
+
+    def getTeamStats(self, command):
+
+        stat = command.split()
+
+        link = 'https://statsapi.web.nhl.com/api/v1/teams?expand=team.stats'
+        jsonResponse = self.downloadJson(link)
+
+        statMap = {}
+
+        for team in jsonResponse['teams']:
+            teamStats = team['teamStats'][0]['splits'][0]['stat']
+            theStat = teamStats[stat[1]]
+            statMap.update({team['abbreviation']:theStat})
+
+        msg = ''
+        d = OrderedDict(sorted(statMap.items(), key=itemgetter(1), reverse=True))
+
+        for key,value in d.items():
+            msg = msg + "{}\t{}\n".format(key, str(value))
+
+        return msg
+
+    def getSupportedTeamStats(self):
+        link = 'https://statsapi.web.nhl.com/api/v1/teams?expand=team.stats'
+        jsonResponse = self.downloadJson(link)
+
+        msg = ''
+        teamStats = jsonResponse['teams'][0]['teamStats'][0]['splits'][0]['stat']
+        for stat in teamStats:
+            msg = msg + stat + '\n'
+
+        return msg
+
+    def getTeamStatRanking(self, command):
+        team = command.split()
+
+        link = 'https://statsapi.web.nhl.com/api/v1/teams?expand=team.stats'
+        jsonResponse = self.downloadJson(link)
+
+        statMap = {}
+
+        msg = ''
+        for t in jsonResponse['teams']:
+            if t['abbreviation'] == team[1]:
+                teamStats = t['teamStats'][0]['splits'][1]['stat']
+                for stat in teamStats:
+                    msg = msg + "{}\t{}\n".format(stat, teamStats[stat])
+
+        return msg
