@@ -35,11 +35,12 @@ class Brains():
             $games - lists today\'s games
             $scores - lists today\'s scores
             $standings - lists current standings
+            $standings.expanded - lists expanded standings
             $scoring.top - lists top 10 scoring leaders
             $scores - lists the scores of today\'s games
             $team.stats [3 digit team name]= Team stats
-            $team.prev [3 digit team name] - Previous teams score
-            $team.next [3 digit team name] - Previous teams score
+            $team.prev [3 digit team name] - Score from teams previous game
+            $team.next [3 digit team name] - When is teams next game
         """
 
     def getStatus(self):
@@ -161,5 +162,31 @@ class Brains():
                 teamStats = t['teamStats'][0]['splits'][1]['stat']
                 for stat in teamStats:
                     msg = msg + "{}\t{}\n".format(stat, teamStats[stat])
+
+        return msg
+
+    def getExpandedStandings(self):
+        link = 'https://statsapi.web.nhl.com/api/v1/standings?expand=standings.record'
+        jsonResponse = self.downloadJson(link)
+
+        msg = "\t{}\t{}\t{}\t{}\t{}\t{}\n".format( 
+            'team'.ljust(20),
+            'wins'.ljust(3),
+            'losses'.ljust(3),
+            'ot'.ljust(3),
+            'points'.ljust(3),
+            'streak'.ljust(3))
+
+        records = jsonResponse['records']
+        for record in records:
+            msg = "{}{} / {}\n".format(msg, record['conference']['name'], record['division']['nameShort'])
+            for team in record['teamRecords']:
+                msg = "{}\t{}\t{}\t{}\t{}\t{}\t{}\n".format(msg, 
+                    team['team']['name'].ljust(20),
+                    str(team['leagueRecord']['wins']).ljust(3),
+                    str(team['leagueRecord']['losses']).ljust(3),
+                    str(team['leagueRecord']['ot']).ljust(3),
+                    str(team['points']).ljust(3),
+                    str(team['streak']['streakCode'].ljust(3)))
 
         return msg

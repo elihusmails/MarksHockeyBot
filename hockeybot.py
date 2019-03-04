@@ -40,7 +40,9 @@ async def on_message(message):
     elif message.content.startswith('$team.stats.print'):
         await client.send_message(message.channel, brains.getSupportedTeamStats())        
     elif message.content.startswith('$team.stats.ranking'):
-        await client.send_message(message.channel, brains.getTeamStatRanking(message.content))   
+        await client.send_message(message.channel, brains.getTeamStatRanking(message.content))
+    elif message.content == '$standings.expanded':
+        await client.send_message(message.channel, brains.getExpandedStandings())
     else:
         await client.send_message(message.channel, 'Unknown command\n' + brains.processHelp())
 
